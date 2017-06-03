@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>Toggl Day Report Maker</title>
+    <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+    <link rel="stylesheet" href="node_modules/admin-lte/bootstrap/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.5.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="node_modules/admin-lte/dist/css/AdminLTE.min.css">
+
+    <link rel="stylesheet" href="node_modules/admin-lte/dist/css/skins/skin-blue.min.css">
+
+    <link rel="stylesheet" href="dist/css/app.css">
+  </head>
+  <body class="hold-transition skin-blue sidebar-mini">
+
+  <div id="app">
+    <div class="wrapper">
+
+      <header class="main-header">
+
+        <a href="" class="logo">
+
+          <span class="logo-mini"><b>TogglDayReport</b>Maker</span>
+
+          <span class="logo-lg"><b>DayReport</b>MAKER</span>
+        </a>
+
+        <nav class="navbar navbar-static-top" role="navigation">
+          <div class="navbar-custom-menu">
+            <ul class="nav navbar-nav">
+
+
+            </ul>
+          </div>
+        </nav>
+      </header>
+
+      <div class="content-wrapper">
+        <section class="content-header">
+
+          <div class="box box-info" id="mainapp">
+            <div class="box-header">
+              <h3 class="box-title">Toggl Day Report Maker <span v-if="!isLoading"> - {{ totalTime }}</span></h3>
+            </div>
+            <!-- /.box-header -->
+            <div class="box-body">
+
+              <input type="text" v-model="date" @keyup.enter="loadFromAPI" placeholder="Datum" class="form-control" style="float: left; width: 95px; margin-right: 20px;">
+              <input type="text" v-model="token" @keyup.enter="loadFromAPI" placeholder="Toggl token" class="form-control" style="float: left; width: 250px; margin-right: 20px;">
+              <input type="text" v-model="workspaceId" @keyup.enter="loadFromAPI" placeholder="Workspace ID" class="form-control" style="float: left; width: 150px; margin-right: 20px;">
+              <div style="float: left;">
+                <button class="btn btn-info" @click="loadFromAPI" v-if="!isLoading" >Load from Toggl API</button>
+                <span class="glyphicon glyphicon-refresh glyphicon-spin text-info" style="font-size: 20px; margin-top: 4px;" v-if="isLoading"></span>
+              </div>
+
+              <br style="clear: both;">
+
+              <br>
+              <br>
+              <div v-if="!isLoading" v-for="task in tasks">
+                <div class="box box-info">
+                  <div class="box-header">
+                    <h3 class="box-title">{{ task.project + ' - ' + task.formattedTime }}</h3>
+                  </div>
+                  <!-- /.box-header -->
+                  <div class="box-body">
+                    <table class="table table-condensed table-striped table-hover">
+                      <tr v-for="subTask in task.tasks">
+                        <td style="width: 20%;">{{ subTask.project }}</td>
+                        <td style="width: 10%;">{{ subTask.tags }}</td>
+                        <td style="width: 40%;" v-html="subTask.text"></td>
+                        <td style="width: 10%;">{{ subTask.formattedTime }}</td>
+                        <td>
+
+                          <span @click="hideCopyIcon(subTask)" v-if="subTask.isCopyIconVisible">
+                              <span :data-clipboard-text="subTask.textToCopy" class="copy-btn glyphicon glyphicon-copy text-info" style="cursor: pointer;" title="Zkopírovat"></span>
+                          </span>
+
+                          <span v-if="!subTask.isCopyIconVisible" class="glyphicon glyphicon-ok text-info"></span>
+                        </td>
+                      </tr>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <!-- /.box-body -->
+            </div>
+
+
+          </div>
+        </section>
+
+        <section class="content">
+
+        </section>
+      </div>
+
+      <footer class="main-footer">
+        <div class="pull-right hidden-xs">
+
+        </div>
+
+        <strong>Copyright &copy; 2017</strong>
+      </footer>
+
+      <div class="control-sidebar-bg"></div>
+    </div>
+      </div>
+
+      <script src="node_modules/admin-lte/plugins/jQuery/jQuery-2.2.0.min.js"></script>
+      <script src="node_modules/admin-lte/bootstrap/js/bootstrap.min.js"></script>
+      <script src="node_modules/admin-lte/dist/js/app.min.js"></script>
+
+      <script src="dist/js/app.js"></script>
+
+  </body>
+
+</html>
