@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const date = new Date();
 
-const API_URL = 'api/v1/report.php';
+const API_URL = 'api/v1/report';
 
 const vm = {
     data: {
@@ -13,7 +13,6 @@ const vm = {
         isLoading: false
     },
     created: function() {
-        this.loadFromAPI();
     },
     methods: {
         hideCopyIcon: function(task) {
@@ -38,7 +37,7 @@ const vm = {
             
             const date = this.date.split('.');
 
-            axios.get(API_URL, { params: { date: `${date[2]}-${date[1]}-${date[0]}`, token: this.token, workspaceId: this.workspaceId } })
+            axios.get(`${API_URL}/${date[2]}-${date[1]}-${date[0]}/${this.workspaceId}/${this.token}/`)
                 .then(response => {
                     this.isLoading = false;
 
