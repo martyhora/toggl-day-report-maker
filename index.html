@@ -43,6 +43,10 @@
             <!-- /.box-header -->
             <div class="box-body">
 
+              <div class="alert alert-danger" v-if="errorMessageVisible">
+                An error occured while fetching the data, check if token and workspace ID are correct.
+              </div>
+
               <input type="text" v-model="date" @keyup.enter="loadFromAPI" placeholder="Datum" class="form-control" style="float: left; width: 95px; margin-right: 20px;">
               <input type="text" v-model="token" @keyup.enter="loadFromAPI" placeholder="Toggl token" class="form-control" style="float: left; width: 250px; margin-right: 20px;">
               <input type="text" v-model="workspaceId" @keyup.enter="loadFromAPI" placeholder="Workspace ID" class="form-control" style="float: left; width: 150px; margin-right: 20px;">

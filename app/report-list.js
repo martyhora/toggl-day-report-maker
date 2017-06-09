@@ -10,7 +10,8 @@ const vm = {
         date: `${date.getDate()}.${date.getMonth() + 1}.${date.getFullYear()}`,
         token: '',
         workspaceId: '',
-        isLoading: false
+        isLoading: false,
+        errorMessageVisible: false,
     },
     created: function() {
     },
@@ -37,9 +38,11 @@ const vm = {
             
             const date = this.date.split('.');
 
-            axios.get(`${API_URL}/${date[2]}-${date[1]}-${date[0]}/${this.workspaceId}/${this.token}/`)
+            axios.get(`${API_URL}/${date[2]}-${date[1]}-${date[0]}/${this.workspaceId}/${this.token}`)
                 .then(response => {
                     this.isLoading = false;
+
+                    this.errorMessageVisible = !(!!response.data.error);
 
                     const tasks = response.data.data.map(task => {
                         const timeHours = task.dur / 3600000;
@@ -112,7 +115,9 @@ const vm = {
                     });
                 })
                 .catch(error => {
-                    console.log(error);
+                    this.isLoading = false;
+
+                    this.errorMessageVisible = true;
                 })
         }
     },
