@@ -42,7 +42,7 @@ const vm = {
                 .then(response => {
                     this.isLoading = false;
 
-                    this.errorMessageVisible = !(!!response.data.error);
+                    this.errorMessageVisible = !!response.data.error;
 
                     const tasks = response.data.data.map(task => {
                         const timeHours = task.dur / 3600000;

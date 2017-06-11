@@ -2,27 +2,18 @@
 
 use \Psr\Http\Message\ServerRequestInterface as Request;
 use \Psr\Http\Message\ResponseInterface as Response;
+use TogglApiClient\TogglApi;
 
 require_once 'vendor/autoload.php';
 
 $app = new \Slim\App;
 
 $app->get('/report/{date}/{workspaceId}/{token}', function (Request $request, Response $response, $args) {
+    $api = new TogglApi($args['token'], (int) $args['workspaceId']);
+
     $day = $args['date'];
-    $workspaceId = $args['workspaceId'];
-    $userAgent = 'test';
-    $apiToken = $args['token'];
-    $reportUrl = "https://toggl.com/reports/api/v2/details?user_agent={$userAgent}&since={$day}&until={$day}";
 
-    $ch = curl_init();
-
-    curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-    curl_setopt($ch, CURLOPT_CUSTOMREQUEST, 'GET');
-    curl_setopt($ch, CURLOPT_USERPWD, "{$apiToken}:api_token");
-    curl_setopt($ch, CURLOPT_URL, "{$reportUrl}&workspace_id={$workspaceId}");
-    curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
-
-    return $response->withJSON(json_decode(curl_exec($ch)));
+    return $response->withJSON($api->getReport($day, $day));
 });
 
 $app->run();
