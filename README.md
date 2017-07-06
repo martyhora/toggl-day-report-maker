@@ -7,7 +7,7 @@ The dashboard is generated for a selected date.
 
 Useful if you use Toggl and need the time records grouped together by tags.
 
-The application is written in Vue.js.
+Frontend of the application is written in Vue.js and backend in PHP.
 
 # Installation
 
